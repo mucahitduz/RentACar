@@ -51,7 +51,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == rentalId));
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

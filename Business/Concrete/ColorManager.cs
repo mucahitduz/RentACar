@@ -45,7 +45,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Color>(_colorDal.Get(clr => clr.Id == colorId));
         }
-
+        [ValidationAspect(typeof(ColorValidator))]
         public IResult Update(Color color)
         {
             return new SuccessResult(Messages.ColorUpdated);

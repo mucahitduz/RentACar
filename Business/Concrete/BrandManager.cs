@@ -45,7 +45,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == brandId));
         }
-
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Update(Brand brand)
         {
             return new SuccessResult(Messages.BrandUpdated);

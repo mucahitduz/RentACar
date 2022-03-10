@@ -47,7 +47,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
-
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
             return new SuccessResult(Messages.UserUpdated);
