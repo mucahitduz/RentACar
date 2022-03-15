@@ -2,6 +2,7 @@
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using Core.Entities.Concrete;
 using System;
 
 namespace ConsoleUI
