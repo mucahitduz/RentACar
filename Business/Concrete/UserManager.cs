@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 
 namespace Business.Concrete
 {
@@ -21,7 +24,10 @@ namespace Business.Concrete
         {
             _userDal = userDal;
         }
+
+        [SecuredOperation("user.add,admin")]
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -34,6 +40,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<User>> GetAll()
         {
             if (DateTime.Now.Hour == 23)
@@ -54,6 +62,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             return new SuccessResult(Messages.UserUpdated);
