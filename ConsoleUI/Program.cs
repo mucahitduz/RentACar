@@ -75,7 +75,7 @@ namespace ConsoleUI
         private static void RentalTest()
         {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            rentalManager.Add(new Rental { Id = 1, CustomerId = 1, CarId = 1, RentDate = DateTime.Now, ReturnDate = DateTime.Today });
+            
             foreach (var rental in rentalManager.GetAll().Data)
             {
                 Console.WriteLine(rental.Id + " " + rental.CustomerId + " " + rental.CarId + " " + rental.RentDate + " " + rental.ReturnDate);
