@@ -24,9 +24,8 @@ namespace Business.Concrete
         {
             _colorDal = colorDal;
         }
-        [SecuredOperation("color.add,admin")]
+
         [ValidationAspect(typeof(ColorValidator))]
-        [CacheRemoveAspect("IColorService.Get")]
         public IResult Add(Color color)
         {
             return new SuccessResult(Messages.ColorAdded);
@@ -37,8 +36,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ColorDeleted);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<List<Color>> GetAll()
         {
             if (DateTime.Now.Hour == 20)
@@ -48,15 +45,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<Color> GetById(int colorId)
         {
             return new SuccessDataResult<Color>(_colorDal.Get(clr => clr.Id == colorId));
         }
 
         [ValidationAspect(typeof(ColorValidator))]
-        [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(Color color)
         {
             return new SuccessResult(Messages.ColorUpdated);

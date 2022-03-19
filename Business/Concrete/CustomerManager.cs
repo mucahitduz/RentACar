@@ -24,9 +24,8 @@ namespace Business.Concrete
         {
             _customerDal = customerDal;
         }
-        [SecuredOperation("customer.add,admin")]
+
         [ValidationAspect(typeof(CustomerValidator))]
-        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
@@ -39,8 +38,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerDeleted);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<List<Customer>> GetAll()
         {
             if (DateTime.Now.Hour == 23)
@@ -50,15 +47,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<Customer> GetById(int userId)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == userId));
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
-        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Update(Customer customer)
         {
             _customerDal.Update(customer);

@@ -25,9 +25,7 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        [SecuredOperation("user.add,admin")]
         [ValidationAspect(typeof(UserValidator))]
-        [CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -40,8 +38,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<List<User>> GetAll()
         {
             if (DateTime.Now.Hour == 23)
@@ -62,7 +58,6 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             return new SuccessResult(Messages.UserUpdated);

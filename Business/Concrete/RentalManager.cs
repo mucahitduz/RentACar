@@ -24,9 +24,8 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
-        [SecuredOperation("rental.add,admin")]
+
         [ValidationAspect(typeof(RentalValidator))]
-        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rental)
         {
             if (rental.ReturnDate == null)
@@ -43,8 +42,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<List<Rental>> GetAll()
         {
             if (DateTime.Now.Hour == 23)
@@ -54,15 +51,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
         }
 
-        [CacheAspect]
-        [PerformanceAspect(5)]
         public IDataResult<Rental> GetById(int rentalId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == rentalId));
         }
 
         [ValidationAspect(typeof(RentalValidator))]
-        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
