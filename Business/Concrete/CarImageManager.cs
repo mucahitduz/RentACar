@@ -37,6 +37,7 @@ namespace Business.Concrete
                 return result;
             }
 
+            carImage.ImagePath = FileHelper.Add(file);
             carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
             return new SuccessResult(Messages.ImageAdded);
@@ -64,9 +65,9 @@ namespace Business.Concrete
             return CheckIfImageNull(carId);
         }
 
-        public IDataResult<CarImage> GetById(int id)
+        public IDataResult<CarImage> GetById(int carImageId)
         {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == id));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == carImageId));
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
